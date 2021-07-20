@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderPaneId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #113945;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChooseProject">
+   <top>
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1280.0" prefHeight="100.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label onMouseClicked="#receiveData" text="Click here to get projects" textFill="#bfe1ec">
+               <font>
+                  <Font size="64.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="100.0" top="20.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="nameLabbel" alignment="CENTER" style="-fx-background-color: #245E71;" text="Ivan Ceaicovschi" textFill="#bfe1ec">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+               </padding>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#disconnect" style="-fx-background-color: #245E71;" text="Disconnect" textFill="#bfe1ec">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#exit" prefWidth="200.0" style="-fx-background-color: #245E71;" text="Exit" textFill="#bfe1ec">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Button>
+            <Button minWidth="200.0" mnemonicParsing="false" onAction="#leaveProject" style="-fx-background-color: #245E71;" text="Leave the project" textFill="#bfe1ec">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#select" prefWidth="200.0" style="-fx-background-color: #245E71;" text="Select" textFill="#bfe1ec">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="createNewButton" mnemonicParsing="false" onAction="#createNew" prefWidth="200.0" style="-fx-background-color: #245E71;" text="Create new" textFill="#bfe1ec">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ListView fx:id="projectList" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #245E71;" styleClass="list-cell" stylesheets="@application.css" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </padding></ListView>
+   </center>
+</BorderPane>

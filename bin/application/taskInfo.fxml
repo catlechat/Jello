@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #113945;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TaskInfo">
+   <bottom>
+      <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="initialsLabbel" style="-fx-background-color: #245E71;" text="IC" textFill="#bfe1ec">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="10.0" right="10.0" top="8.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="commentField" prefHeight="44.0" prefWidth="1021.0" promptText="Write a new comment..." style="-fx-background-color: #245E71;">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#back" style="-fx-background-color: #245E71;" text="Close" textFill="#bfe1ec">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="40.0" right="40.0" top="8.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <Label fx:id="titleLabbel" prefWidth="1280.0" style="-fx-background-color: #245E71;" text="Définition des éléments de la charte graphique, des contraintes en teme d'egonomie et d'accessibilité" textFill="#bfe1ec" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="27.0" />
+         </font>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <AnchorPane>
+         <children>
+            <Label fx:id="descriptionLabbel" alignment="TOP_CENTER" layoutX="3.0" prefHeight="220.0" prefWidth="916.0" style="-fx-background-color: #245E71;" text="Le but est donc de faire un Figma avec tout les elements qu’on retrouvera dans notre application. J’aimerais aussi en definir les couleurs et les shapes mais on pouras toujours les changer si jamais ca ne convient pas tout l’equipe !" textAlignment="JUSTIFY" textFill="#bfe1ec" textOverrun="CENTER_ELLIPSIS" wrapText="true" BorderPane.alignment="TOP_LEFT">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets left="20.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="976.0" layoutY="-1.0" text="Working on the task" textFill="#bfe1ec">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <ListView fx:id="teamList" layoutX="934.0" layoutY="35.0" prefHeight="132.0" prefWidth="304.0" style="-fx-background-color: #7AA0AC;" />
+            <Button layoutX="934.0" layoutY="183.0" mnemonicParsing="false" onAction="#addToTask" prefHeight="36.0" prefWidth="146.0" style="-fx-background-color: #7AA0AC;" text="Add to the task" textFill="#bfe1ec">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+               </padding>
+            </Button>
+            <Button layoutX="1093.0" layoutY="182.0" mnemonicParsing="false" onAction="#quitTask" prefHeight="36.0" prefWidth="146.0" style="-fx-background-color: #7AA0AC;" text="Quit this task" textFill="#bfe1ec">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+               </padding>
+            </Button>
+            <Label layoutX="20.0" layoutY="237.0" text="Activity" textFill="#bfe1ec">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <ListView fx:id="activityList" layoutX="3.0" layoutY="284.0" prefHeight="308.0" prefWidth="1246.0" style="-fx-background-color: #7AA0AC;" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="20.0" right="20.0" />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>

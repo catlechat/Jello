@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #113945;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Welcome">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="welcomeMessage" layoutX="482.0" layoutY="371.0" text="Good Morning" textAlignment="CENTER" textFill="#bfe1ec" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font size="53.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
