@@ -109,7 +109,7 @@ public class CreateProject implements Initializable{
         
 		
 		Main m = new Main();
-		m.changeScene("project.fxml", new Token(userToken)); 
+		m.changeScene("chooseProject.fxml", new Token(userToken)); 
 	}
 	public void back() throws IOException {
 		Main m = new Main();

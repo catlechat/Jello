@@ -8,6 +8,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.json.simple.JSONArray;
@@ -40,6 +42,11 @@ public class ChooseProject implements Initializable{
 	@FXML
 	Label nameLabbel;
 	
+	Boolean clicked = false;
+	
+	Map<String,String> projectsID = new HashMap<String, String>();
+
+	
 	String userToken;
 	private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -48,13 +55,14 @@ public class ChooseProject implements Initializable{
 	
 	@FXML
 	private void receiveData(MouseEvent event) throws IOException, InterruptedException {
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		Token t = (Token) stage.getUserData();
-		userToken = t.getToken();
-		
-		fillProjects();
-		
+		if(!clicked) {
+			Node node = (Node) event.getSource();
+			Stage stage = (Stage) node.getScene().getWindow();
+			Token t = (Token) stage.getUserData();
+			userToken = t.getToken();
+			fillProjects();
+			clicked = true;
+		}
 	}
 	
 	public void fillProjects() throws IOException, InterruptedException {		
@@ -85,14 +93,15 @@ public class ChooseProject implements Initializable{
 		   } 
 		} 	
 		for(JSONObject project : projects){
+			projectsID.put(project.get("name").toString(), project.get("_id").toString());
 			items.add(""+project.get("name"));
-			System.out.println("User name : "+ project.get("username"));
 		}
 		projectList.setItems(items);
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 		
 	}
 	
@@ -103,7 +112,7 @@ public class ChooseProject implements Initializable{
 	
 	public void select() throws IOException {
 		Main m = new Main();
-		m.changeScene("project.fxml", null); 
+		m.changeScene("project.fxml", new Token(userToken, projectsID.get(projectList.getSelectionModel().getSelectedItem().toString()))); 
 	}
 	
 	public void exit() throws IOException {

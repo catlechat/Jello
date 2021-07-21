@@ -44,7 +44,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <Label layoutX="195.0" layoutY="72.0" prefHeight="76.0" prefWidth="879.0" text="Clap your hands to add someone" textFill="#bfe1ec">
+            <Label fx:id="getUsersLabel" layoutX="335.0" layoutY="73.0" onMouseClicked="#getUsers" onTouchPressed="#getUsers" prefHeight="79.0" prefWidth="594.0" text="Click here to get users" textAlignment="CENTER" textFill="#bfe1ec">
                <font>
                   <Font size="64.0" />
                </font>
@@ -67,7 +67,7 @@
    <bottom>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="586.0" layoutY="108.0" mnemonicParsing="false" onAction="#done" style="-fx-background-color: #7AA0AC;" text="Done" textFill="#bfe1ec">
+            <Button fx:id="addUser" layoutX="563.0" layoutY="107.0" mnemonicParsing="false" onAction="#addUsersAPI" style="-fx-background-color: #7AA0AC;" text="Add User" textFill="#bfe1ec">
                <font>
                   <Font size="30.0" />
                </font>

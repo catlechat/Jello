@@ -18,7 +18,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Label alignment="CENTER" maxWidth="-Infinity" prefWidth="776.0" style="-fx-background-color: #245E71;" text="Projet annuel 2021" textAlignment="CENTER" textFill="#bfe1ec">
+            <Label fx:id="projectName" alignment="CENTER" maxWidth="-Infinity" onMouseClicked="#receiveData" prefWidth="776.0" style="-fx-background-color: #245E71;" text="Project Name" textAlignment="CENTER" textFill="#bfe1ec">
                <font>
                   <Font size="30.0" />
                </font>
@@ -51,7 +51,14 @@
    <center>
       <VBox>
          <children>
-            <HBox prefHeight="56.0" prefWidth="1280.0" />
+            <Button mnemonicParsing="false" onAction="#receiveData" style="-fx-background-color: #7AA0AC;" text="Get project Data" textAlignment="CENTER" textFill="#bfe1ec">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="550.0" right="300.0" top="5.0" />
+               </VBox.margin>
+            </Button>
             <HBox prefHeight="683.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                <children>
                   <AnchorPane prefHeight="378.0" prefWidth="400.0" style="-fx-background-color: #245E71;">
@@ -64,7 +71,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="363.0" layoutY="8.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
+                        <Button layoutX="363.0" layoutY="8.0" mnemonicParsing="false" onAction="#addTaskToDo" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -82,7 +89,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="362.0" layoutY="8.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
+                        <Button layoutX="362.0" layoutY="8.0" mnemonicParsing="false" onAction="#addTaskCurent" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -100,7 +107,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="363.0" layoutY="10.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
+                        <Button layoutX="363.0" layoutY="10.0" mnemonicParsing="false" onAction="#addTaskDone" style="-fx-background-color: #7AA0AC;" text="+" textFill="#bfe1ec">
                            <font>
                               <Font size="14.0" />
                            </font>
