@@ -10,7 +10,7 @@
    <bottom>
       <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="initialsLabbel" style="-fx-background-color: #245E71;" text="IC" textFill="#bfe1ec">
+            <Label fx:id="initialsLabbel" style="-fx-background-color: #245E71;" text="  " textFill="#bfe1ec">
                <font>
                   <Font size="22.0" />
                </font>
@@ -21,7 +21,7 @@
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="commentField" prefHeight="44.0" prefWidth="1021.0" promptText="Write a new comment..." style="-fx-background-color: #245E71;">
+            <TextField fx:id="commentField" onAction="#sendComent" prefHeight="44.0" prefWidth="1021.0" promptText="Write a new comment..." style="-fx-background-color: #245E71;">
                <font>
                   <Font size="22.0" />
                </font>
@@ -41,7 +41,7 @@
       </HBox>
    </bottom>
    <top>
-      <Label fx:id="titleLabbel" prefWidth="1280.0" style="-fx-background-color: #245E71;" text="Définition des éléments de la charte graphique, des contraintes en teme d'egonomie et d'accessibilité" textFill="#bfe1ec" BorderPane.alignment="CENTER">
+      <Label fx:id="titleLabbel" prefWidth="1280.0" style="-fx-background-color: #245E71;" text="Title" textFill="#bfe1ec" BorderPane.alignment="CENTER">
          <font>
             <Font size="27.0" />
          </font>
@@ -56,7 +56,7 @@
    <center>
       <AnchorPane>
          <children>
-            <Label fx:id="descriptionLabbel" alignment="TOP_CENTER" layoutX="3.0" prefHeight="220.0" prefWidth="916.0" style="-fx-background-color: #245E71;" text="Le but est donc de faire un Figma avec tout les elements qu’on retrouvera dans notre application. J’aimerais aussi en definir les couleurs et les shapes mais on pouras toujours les changer si jamais ca ne convient pas tout l’equipe !" textAlignment="JUSTIFY" textFill="#bfe1ec" textOverrun="CENTER_ELLIPSIS" wrapText="true" BorderPane.alignment="TOP_LEFT">
+            <Label fx:id="descriptionLabbel" alignment="TOP_LEFT" layoutX="3.0" prefHeight="220.0" prefWidth="916.0" style="-fx-background-color: #245E71;" text="Description" textFill="#bfe1ec" textOverrun="WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="TOP_LEFT">
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
@@ -89,7 +89,7 @@
                   <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
                </padding>
             </Button>
-            <Label layoutX="20.0" layoutY="237.0" text="Activity" textFill="#bfe1ec">
+            <Label fx:id="getData" layoutX="500.0" layoutY="234.0" onMouseClicked="#receiveData" onTouchPressed="#receiveData" text="Click to Get Task Data" textFill="#bfe1ec">
                <font>
                   <Font size="27.0" />
                </font>

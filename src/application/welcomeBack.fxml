@@ -9,7 +9,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="welcomeBackLabbel" alignment="CENTER" contentDisplay="CENTER" layoutX="451.0" layoutY="305.0" lineSpacing="2.0" prefHeight="211.0" prefWidth="387.0" text="Welcome back Ivan" textAlignment="CENTER" textFill="#bfe1ec" wrapText="true">
+            <Label fx:id="welcomeBackLabbel" alignment="CENTER" contentDisplay="CENTER" layoutX="451.0" layoutY="305.0" lineSpacing="2.0" prefHeight="211.0" prefWidth="387.0" text="Welcome back " textAlignment="CENTER" textFill="#bfe1ec" wrapText="true">
                <font>
                   <Font size="60.0" />
                </font>

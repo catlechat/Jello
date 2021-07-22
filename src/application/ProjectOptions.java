@@ -1,18 +1,10 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,8 +42,11 @@ public class ProjectOptions {
 	
 	@FXML
 	Label getUsersLabel;
-		
 	
+	Boolean clicked = false;
+
+		
+	String userID;
 	String userToken; 
 	String projectID;
 	String projectName;
@@ -64,33 +59,44 @@ public class ProjectOptions {
             .build();
 	
 	public void back() throws IOException {
-		Main m = new Main();
-		m.changeScene("project.fxml", new Token(userToken, projectID)); 
+		if(userToken != null) {
+		    System.out.println("User id id id " + userID);
+
+			Main m = new Main();
+			m.changeScene("project.fxml", new Token(userToken, projectID,null,userID)); 
+		}
 	}
 	
 	public void changeName(ActionEvent event) throws Exception {
-		String newName = nameLabbel.getText();
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		Token t = (Token) stage.getUserData();
-		userToken = t.getToken();
-		projectID = t.getData();
-        System.out.println(userToken);
-        System.out.println(projectID);
-
+		if(!clicked) {
+			String newName = nameLabbel.getText();
+			Node node = (Node) event.getSource();
+			Stage stage = (Stage) node.getScene().getWindow();
+			Token t = (Token) stage.getUserData();
+			userToken = t.getToken();
+			projectID = t.getProjectID();
+			userID = t.getUserID();
+		    System.out.println(userToken);
+		    System.out.println(projectID);
 		
-		changeNameAPI(newName);
+			
+			changeNameAPI(newName);
+		}
+		
 	}
 	
 	public void getUsers(MouseEvent event) throws Exception {
-		String newName = nameLabbel.getText();
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		Token t = (Token) stage.getUserData();
-		userToken = t.getToken();
-		projectID = t.getData();
-		setUsersList();
-		setTeamList();
+		if(!clicked) {
+			Node node = (Node) event.getSource();
+			Stage stage = (Stage) node.getScene().getWindow();
+			Token t = (Token) stage.getUserData();
+			userToken = t.getToken();
+			projectID = t.getProjectID();
+			userID = t.getUserID();
+
+			setUsersList();
+			setTeamList();
+		}
 	}
 	
 	public void setTeamList() {
@@ -227,8 +233,10 @@ public class ProjectOptions {
 	}
 
 	public void done() throws IOException {
-		Main m = new Main();
-		m.changeScene("project.fxml", new Token(userToken, projectID)); 
+		if(userToken != null) {
+			Main m = new Main();
+			m.changeScene("project.fxml", new Token(userToken, projectID, null, userID)); 
+		}
 	}
 	
 	public void changeNameAPI(String labbel) throws Exception {		

@@ -1,20 +1,14 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -31,9 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class CreateProject implements Initializable{
@@ -51,6 +43,7 @@ public class CreateProject implements Initializable{
 	Map<String,String> usersID = new HashMap<String, String>();
 	
 	String userToken; 
+	String userID;
 	private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
@@ -62,58 +55,66 @@ public class CreateProject implements Initializable{
 		Stage stage = (Stage) node.getScene().getWindow();
 		Token t = (Token) stage.getUserData();
 		userToken = t.getToken();
+		userID = t.getUserID();
+		
 		System.out.println(userToken);
 		setUsersList();
 		
 	}
 	
 	public void create() throws IOException, InterruptedException {
-		String user = "";
-		int taille = items2.size();
-		if(items2.size() <= 1) {
-			for(String teamUser : items2){
-				user = "{\"user_id\" : \""+usersID.get(teamUser)+"\","
-						+ "\"name\" : \""+teamUser+"\"}";
-			}
-		}else {
-			int cur = 1;
-			for(String teamUser : items2){
-				user += "{\"user_id\" : \""+usersID.get(teamUser)+"\","
-						+ "\"name\" : \""+teamUser+"\"}";
-				if(cur != taille) {
-					user += ",";
+		if(userToken != null) {
+
+			String user = "";
+			int taille = items2.size();
+			if(items2.size() <= 1) {
+				for(String teamUser : items2){
+					user = "{\"user_id\" : \""+usersID.get(teamUser)+"\","
+							+ "\"name\" : \""+teamUser+"\"}";
 				}
-				cur ++;
+			}else {
+				int cur = 1;
+				for(String teamUser : items2){
+					user += "{\"user_id\" : \""+usersID.get(teamUser)+"\","
+							+ "\"name\" : \""+teamUser+"\"}";
+					if(cur != taille) {
+						user += ",";
+					}
+					cur ++;
+				}
 			}
+			String body = new StringBuilder()
+	                .append("{")
+	                .append("\"name\":\""+nameField.getText()+"\",")
+	                .append("\"team\":["+user+"]")
+	                .append("}").toString();
+			
+			System.out.print(body);
+			HttpRequest request = HttpRequest.newBuilder()
+	                .POST(HttpRequest.BodyPublishers.ofString(body))
+	                .uri(URI.create("https://benevold.herokuapp.com/jello/project"))
+	                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+	                .header("Content-Type", "application/json")
+	                .header("access-token", userToken)
+	                .build();
+	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+	        // print status code
+	        System.out.println(response.statusCode());
+	        // print response body
+	        System.out.println(response.body()); 
+	        
+	        
+			
+			Main m = new Main();
+			m.changeScene("chooseProject.fxml", new Token(userToken,null,null, userID)); 
 		}
-		String body = new StringBuilder()
-                .append("{")
-                .append("\"name\":\""+nameField.getText()+"\",")
-                .append("\"team\":["+user+"]")
-                .append("}").toString();
-		
-		System.out.print(body);
-		HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofString(body))
-                .uri(URI.create("https://benevold.herokuapp.com/jello/project"))
-                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
-                .header("Content-Type", "application/json")
-                .header("access-token", userToken)
-                .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
-        
-        
-		
-		Main m = new Main();
-		m.changeScene("chooseProject.fxml", new Token(userToken)); 
 	}
 	public void back() throws IOException {
-		Main m = new Main();
-		m.changeScene("chooseProject.fxml", new Token(userToken)); 
+		if(userToken != null) {
+			Main m = new Main();
+			m.changeScene("chooseProject.fxml", new Token(userToken, null, null, userID)); 
+		}
+		
 	}
 	
 	public void addToTeam() {

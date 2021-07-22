@@ -3,25 +3,31 @@ package application;
 public class Token {
 
 	private String token;
-	private String data;
+	private String userID;
+	private String projectID;
 	private String status;
-	
+	private String taskID;
 	
 	public Token(String token) {
 		this.token = token;
-		this.data = null;
-		this.status = null;
 	}
 	
-	public Token(String token, String data) {
-		this.token = token;
-		this.data = data;
-		this.status = null;
+	public Token(String token, String projectID) {
+		this(token);
+		this.projectID = projectID;
 	}
-	public Token(String token, String data, String status) {
-		this.token = token;
-		this.data = data;
+	public Token(String token, String projectID, String status) {
+		this(token,projectID);
 		this.status = status;
+	}
+	
+	public Token(String token, String projectID, String status, String userID) {
+		this(token,projectID,status);
+		this.userID = userID;
+	}
+	public Token(String token, String projectID, String status, String userID, String taskID) {
+		this(token,projectID,status,userID);
+		this.taskID = taskID;
 	}
 
 	
@@ -29,11 +35,18 @@ public class Token {
 		return this.token;
 	}
 	
-	public String getData() {
-		return this.data;
+	public String getUserID() {
+		return this.userID;
+	}
+	
+	public String getProjectID() {
+		return this.projectID;
 	}
 	public String getStatus() {
 		return this.status;
+	}
+	public String getTaskID() {
+		return this.taskID;
 	}
 	
 }

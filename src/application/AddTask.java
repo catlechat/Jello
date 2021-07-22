@@ -1,12 +1,7 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -23,13 +18,11 @@ import org.json.simple.parser.ParseException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class AddTask {
@@ -47,6 +40,9 @@ public class AddTask {
 	String projectID;
 	String taskID;
 	String taskStatus;
+	String userID;
+	
+	Boolean clicked = false;
 	
 	private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -55,14 +51,18 @@ public class AddTask {
 	
 	@FXML
 	private void receiveData(ActionEvent event) throws IOException, InterruptedException {
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		Token t = (Token) stage.getUserData();
-		userToken = t.getToken();
-		projectID = t.getData();
-		taskStatus = t.getStatus();
-		setUsersList();
-		System.out.print("ok");
+		if(!clicked) {
+			Node node = (Node) event.getSource();
+			Stage stage = (Stage) node.getScene().getWindow();
+			Token t = (Token) stage.getUserData();
+			userToken = t.getToken();
+			projectID = t.getProjectID();
+			taskStatus = t.getStatus();
+			userID = t.getUserID();
+			setUsersList();
+			clicked = true;
+		}
+		
 	}
 	
 	
@@ -72,19 +72,19 @@ public class AddTask {
 			String description = descriptionField.getText();
 			String userName = usersList.getSelectionModel().getSelectedItem().toString();
 			String user_id = usersID.get(userName);
-			String shortN = "OO";
 			
 			String body = new StringBuilder()
 	                .append("{")
 	                .append("\"name\":\""+name+"\",")
-	                .append("\"projectId\":\""+projectID+"\",")
+	                .append("\"project_id\":\""+projectID+"\",")
 	                .append("\"status\":\""+taskStatus+"\",")
 	                .append("\"description\":\""+description+"\",")
 	                .append("\"team\":[")
 	                .append("{ \"user_id\":\""+user_id+"\",")
 	                .append("\"name\":\""+userName+"\",")
-	                .append("\"short\":\""+shortN+"\"}]")
+	                .append("\"short\":\""+userName.charAt(0)+"\"}]")
 	                .append("}").toString();
+	        System.out.println(body);
 			HttpRequest request = HttpRequest.newBuilder()
 	                .POST(HttpRequest.BodyPublishers.ofString(body))
 	                .uri(URI.create("https://benevold.herokuapp.com/jello/task"))
@@ -97,7 +97,8 @@ public class AddTask {
 	        System.out.println(response.statusCode() + " pour l'ajout d'une tache");
 	        System.out.println(response.body() + "pour l'ajout d'une tache");
 	        
-			
+	        Main m = new Main();
+			m.changeScene("project.fxml", new Token(userToken, projectID,null,userID)); 
 		}
 	}
 	
@@ -153,8 +154,10 @@ public class AddTask {
 	}
 	
 	public void back() throws IOException {
-		Main m = new Main();
-		m.changeScene("project.fxml", new Token(userToken, projectID)); 
+		if(userToken != null) {
+			Main m = new Main();
+			m.changeScene("project.fxml", new Token(userToken, projectID,null,userID)); 
+		}
 	}
 	
 

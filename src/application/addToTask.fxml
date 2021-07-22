@@ -12,7 +12,7 @@
          <children>
             <HBox>
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #245E71;" text="Cancel" textFill="#bfe1ec">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #245E71;" text="Close" textFill="#bfe1ec">
                      <font>
                         <Font size="34.0" />
                      </font>
@@ -20,7 +20,7 @@
                         <Insets bottom="20.0" left="40.0" right="100.0" />
                      </HBox.margin>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#done" prefWidth="500.0" style="-fx-background-color: #245E71;" text="Done" textFill="#bfe1ec">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addUsersAPI" prefWidth="500.0" style="-fx-background-color: #245E71;" text="Add User" textFill="#bfe1ec">
                      <font>
                         <Font size="34.0" />
                      </font>
@@ -47,7 +47,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="351.0" layoutY="25.0" text="Let's make them work !" textFill="#bfe1ec">
+            <Label layoutX="409.0" layoutY="21.0" onMouseClicked="#receiveData" onTouchPressed="#receiveData" text="Click to get Users " textFill="#bfe1ec">
                <font>
                   <Font size="51.0" />
                </font>

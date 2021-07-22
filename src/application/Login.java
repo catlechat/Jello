@@ -1,44 +1,32 @@
 package application;
 
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
-import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublisher;
-import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.ResourceBundle;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Login {
+public class Login implements Initializable{
 
 	@FXML
 	Button popupButton;
@@ -56,8 +44,14 @@ public class Login {
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		loginField.setText(getUsernameFromFile());
 		
-	public void singin() throws Exception {
+	}
+		
+	public void singin() throws Exception  {
 		
 		String login = loginField.getText();
 		String password = passwordField.getText();
@@ -82,12 +76,20 @@ public class Login {
 	    JSONParser parser = new JSONParser();
 		obj = parser.parse(response.body());
         JSONObject parent = (JSONObject)obj;
-		String token = (String) parent.get("token");
-        System.out.println("Token : " + token);
+        String token = (String) parent.get("token");
 		
 		if(token != null) {
+			
+	        System.out.println("Token : " + token);
+	        
+	        String username = parent.get("username").toString();
+	        
+	        String userID = parent.get("user_id").toString();
+	        //Write username to file 
+	        writeLoginFile(username);
+	        //
 			Main m = new Main();
-			m.changeScene("chooseProject.fxml", new Token(token)); 
+			m.changeScene("chooseProject.fxml", new Token(token,null,null,userID)); 
 		}else {
 			final Stage dialog = new Stage();
 	        VBox dialogVbox = new VBox(20);
@@ -105,10 +107,48 @@ public class Login {
 		}
 		   
 	}
+	private String getUsernameFromFile() {
+		String data = null;
+		try {
+		      File myObj = new File("user.txt");
+		      if(myObj.exists()) {
+		    	  Scanner myReader = new Scanner(myObj);
+			      while (myReader.hasNextLine()) {
+			        data = myReader.nextLine();
+			        System.out.println(data);
+			      }
+			      myReader.close();
+		      }
+		      
+		    } catch (FileNotFoundException e) {
+		      System.out.println("File not found");
+		    }
+		return data;
+	}
 	
 	
 	
 	
+	private void writeLoginFile(String username) {
+        File fold = new File("user.txt");
+        if(fold.exists()) {
+            fold.delete();
+        }
+        File fnew = new File("user.txt");
+	    try {
+	        FileWriter f2 = new FileWriter(fnew, false);
+	        f2.write(username);
+	        f2.close();
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }   
+			
+	}
+
+
+
+
 	public void openPopup() {
 		final Stage dialog = new Stage();
         VBox dialogVbox = new VBox(20);
@@ -125,4 +165,5 @@ public class Login {
         dialog.setScene(dialogScene);
         dialog.show();
 	}
+
 }
