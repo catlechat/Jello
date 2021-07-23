@@ -8,7 +8,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,11 +66,8 @@ public class TaskInfo {
 			projectID = t.getProjectID();
 			taskID = t.getTaskID();		
 			userID = t.getUserID();
-			
 			initi = String.valueOf(getUsernameFromFile().charAt(0));
-			
 			initialsLabbel.setText(initi);
-
 			fillData();
 			clicked = true;
 		}
@@ -86,13 +82,11 @@ public class TaskInfo {
 		    	  Scanner myReader = new Scanner(myObj);
 			      while (myReader.hasNextLine()) {
 			        data = myReader.nextLine();
-			        System.out.println(data);
 			      }
 			      myReader.close();
 		      }
 		      
 		    } catch (FileNotFoundException e) {
-		      System.out.println("File not found");
 		    }
 		return data;
 	}
@@ -112,9 +106,6 @@ public class TaskInfo {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
-        
         Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -123,22 +114,13 @@ public class TaskInfo {
 			e.printStackTrace();
 		}
         JSONObject parent = (JSONObject)obj;
-
         JSONObject payload = (JSONObject)parent.get("response");
-        
         titleLabbel.setText(payload.get("name").toString());
         descriptionLabbel.setText(payload.get("description").toString());
-        
-        
         JSONArray resTeamList = (JSONArray) payload.get("team");
-        
         JSONArray resComments = (JSONArray) payload.get("comments");
-		
 		ArrayList<JSONObject> team = new ArrayList<JSONObject>();
-		
 		ArrayList<JSONObject> comment = new ArrayList<JSONObject>();
-
-		
 		if (resTeamList != null) { 
 		   int len = resTeamList.size();
 		   for (int i=0;i<len;i++){ 
@@ -201,10 +183,8 @@ public class TaskInfo {
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        System.out.println(response.statusCode());
-	        System.out.println(response.body()); 
-	        
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 			Main m = new Main();
 			m.changeScene("project.fxml", new Token(userToken, projectID, null, userID, taskID)); 
 
@@ -213,13 +193,11 @@ public class TaskInfo {
 	
 	
 	public void sendComent() throws IOException, InterruptedException {
-		//POST /jello/task/activity
 		if(userToken != null) {
 			Date date= new Date();
 			long time = date.getTime();
 			Timestamp ts = new Timestamp(time);
 			String message = commentField.getText();
-						
 			String body = new StringBuilder()
 	                .append("{")
 	                .append("\"task_id\":\""+taskID+"\",")
@@ -234,10 +212,8 @@ public class TaskInfo {
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        System.out.println(response.statusCode());
-	        System.out.println(response.body()); 
-	        
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	        commentField.setText("");
 	        teamList.getItems().clear();
 	        items.clear();

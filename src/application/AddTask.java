@@ -84,7 +84,6 @@ public class AddTask {
 	                .append("\"name\":\""+userName+"\",")
 	                .append("\"short\":\""+userName.charAt(0)+"\"}]")
 	                .append("}").toString();
-	        System.out.println(body);
 			HttpRequest request = HttpRequest.newBuilder()
 	                .POST(HttpRequest.BodyPublishers.ofString(body))
 	                .uri(URI.create("https://benevold.herokuapp.com/jello/task"))
@@ -92,11 +91,8 @@ public class AddTask {
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        // print status code
-	        System.out.println(response.statusCode() + " pour l'ajout d'une tache");
-	        System.out.println(response.body() + "pour l'ajout d'une tache");
-	        
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());	        
 	        Main m = new Main();
 			m.changeScene("project.fxml", new Token(userToken, projectID,null,userID)); 
 		}
@@ -121,13 +117,11 @@ public class AddTask {
 			usersID.put(user.get("username").toString(), user.get("_id").toString());
 			
 			items.add(""+user.get("username"));
-			System.out.println("User name : "+ user.get("username"));
 		}
 		usersList.setItems(items);
 	}
 	
 	public JSONArray getUsersAPI() throws Exception {
-		System.out.println("Getting Users with token : " + userToken);
 		HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("https://benevold.herokuapp.com/jello/users"))
@@ -136,11 +130,6 @@ public class AddTask {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
-		System.out.println("Reading body");
 		Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {

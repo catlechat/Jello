@@ -13,8 +13,6 @@ public class Main extends Application {
 	
 	private static Stage stg;
     public static void main(String[] args) throws Exception {
- 
-        
         launch(args);
     }
     

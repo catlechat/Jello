@@ -67,7 +67,6 @@ public class Welcome implements Initializable{
 	@SuppressWarnings("unused")
 	public void nextScene() {
 		Main m = new Main();
-    	//if il y a un token alors on envoit a la page suivante
     	if(false) {
     		try {
     			m.changeScene("login.fxml", null);

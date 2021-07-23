@@ -62,11 +62,6 @@ public class ChooseProject implements Initializable{
 			userToken = t.getToken();
 			userID = t.getUserID();
 			fillProjects();
-			
-			
-		    System.out.println("User ID "+ userID);
-		    
-
 			clicked = true;
 		}
 	}
@@ -78,13 +73,11 @@ public class ChooseProject implements Initializable{
 		    	  Scanner myReader = new Scanner(myObj);
 			      while (myReader.hasNextLine()) {
 			        data = myReader.nextLine();
-			        System.out.println(data);
 			      }
 			      myReader.close();
 		      }
 		      
 		    } catch (FileNotFoundException e) {
-		      System.out.println("File not found");
 		    }
 		return data;
 	}
@@ -98,8 +91,6 @@ public class ChooseProject implements Initializable{
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
         Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -126,8 +117,6 @@ public class ChooseProject implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		nameLabbel.setText(getUsernameFromFile().toString());
-
-		
 	}
 
 	
@@ -152,16 +141,8 @@ public class ChooseProject implements Initializable{
 	public void leaveProject() throws IOException, InterruptedException {
 		if(userToken != null && projectList.getSelectionModel().getSelectedItem() != null) {
 			String selected = projectList.getSelectionModel().getSelectedItem().toString();
-			//projectId
-			//userID
 			String user_id = userID;
 			String project_id = projectsID.get(selected);
-			
-	        System.out.println("User id is : " +user_id);
-	        System.out.println("Project id is " +project_id);
-
-			
-			
 			String body = new StringBuilder()
 	                .append("{")
 	                .append("\"project_id\":\""+project_id+"\",")
@@ -174,15 +155,11 @@ public class ChooseProject implements Initializable{
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        System.out.println(response.statusCode());
-	        System.out.println(response.body());
-	        
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	        projectList.getItems().clear();
 	        items.clear();
 	        fillProjects();
-	        
-	        
 		}
 	}
 	

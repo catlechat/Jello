@@ -41,13 +41,11 @@ public class WelcomeBack implements Initializable{
 		    	  Scanner myReader = new Scanner(myObj);
 			      while (myReader.hasNextLine()) {
 			        data = myReader.nextLine();
-			        System.out.println(data);
 			      }
 			      myReader.close();
 		      }
 		      
 		    } catch (FileNotFoundException e) {
-		      System.out.println("File not found");
 		    }
 		return data;
 	}

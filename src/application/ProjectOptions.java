@@ -60,8 +60,6 @@ public class ProjectOptions {
 	
 	public void back() throws IOException {
 		if(userToken != null) {
-		    System.out.println("User id id id " + userID);
-
 			Main m = new Main();
 			m.changeScene("project.fxml", new Token(userToken, projectID,null,userID)); 
 		}
@@ -76,10 +74,7 @@ public class ProjectOptions {
 			userToken = t.getToken();
 			projectID = t.getProjectID();
 			userID = t.getUserID();
-		    System.out.println(userToken);
-		    System.out.println(projectID);
 		
-			
 			changeNameAPI(newName);
 		}
 		
@@ -119,7 +114,6 @@ public class ProjectOptions {
 		} 
 		for(JSONObject user : team){			
 			items2.add(""+user.get("name"));
-			System.out.println("User name : "+ user.get("name"));
 		}
 		teamList.setItems(items2);
 		
@@ -144,7 +138,6 @@ public class ProjectOptions {
 		for(JSONObject user : users){
 			usersID.put(user.get("username").toString(), user.get("_id").toString());
 			items.add(""+user.get("username"));
-			System.out.println("User name : "+ user.get("username"));
 		}
 		allUsersList.setItems(items);
 	}
@@ -160,11 +153,6 @@ public class ProjectOptions {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
-		System.out.println("Reading body");
 		Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -190,9 +178,6 @@ public class ProjectOptions {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
-        
         Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -223,10 +208,8 @@ public class ProjectOptions {
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        // print status code
-	        System.out.println(response.statusCode() + "pour l'ajout d'un user");
-	        // print response body
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	        teamList.getItems().clear();
 	        setTeamList();
 		}
@@ -252,10 +235,8 @@ public class ProjectOptions {
                 .header("Content-Type", "application/json")
                 .header("access-token", userToken)
                 .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
+        @SuppressWarnings("unused")
+		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	}
 
 }

@@ -44,6 +44,8 @@ public class CreateProject implements Initializable{
 	
 	String userToken; 
 	String userID;
+	Boolean clicked = false;
+	
 	private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
@@ -51,15 +53,15 @@ public class CreateProject implements Initializable{
 	
 	@FXML
 	private void receiveData(ActionEvent event) throws IOException, InterruptedException {
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		Token t = (Token) stage.getUserData();
-		userToken = t.getToken();
-		userID = t.getUserID();
-		
-		System.out.println(userToken);
-		setUsersList();
-		
+		if(!clicked) {
+			Node node = (Node) event.getSource();
+			Stage stage = (Stage) node.getScene().getWindow();
+			Token t = (Token) stage.getUserData();
+			userToken = t.getToken();
+			userID = t.getUserID();
+			setUsersList();
+			clicked = true;
+		}
 	}
 	
 	public void create() throws IOException, InterruptedException {
@@ -88,8 +90,6 @@ public class CreateProject implements Initializable{
 	                .append("\"name\":\""+nameField.getText()+"\",")
 	                .append("\"team\":["+user+"]")
 	                .append("}").toString();
-			
-			System.out.print(body);
 			HttpRequest request = HttpRequest.newBuilder()
 	                .POST(HttpRequest.BodyPublishers.ofString(body))
 	                .uri(URI.create("https://benevold.herokuapp.com/jello/project"))
@@ -97,14 +97,9 @@ public class CreateProject implements Initializable{
 	                .header("Content-Type", "application/json")
 	                .header("access-token", userToken)
 	                .build();
-	        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	        // print status code
-	        System.out.println(response.statusCode());
-	        // print response body
-	        System.out.println(response.body()); 
-	        
-	        
-			
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+	       			
 			Main m = new Main();
 			m.changeScene("chooseProject.fxml", new Token(userToken,null,null, userID)); 
 		}
@@ -150,9 +145,7 @@ public class CreateProject implements Initializable{
 		} 
 		for(JSONObject user : users){
 			usersID.put(user.get("username").toString(), user.get("_id").toString());
-			
 			items.add(""+user.get("username"));
-			System.out.println("User name : "+ user.get("username"));
 		}
 		allUsersList.setItems(items);
 	}
@@ -160,7 +153,6 @@ public class CreateProject implements Initializable{
 	
 	
 	public JSONArray getUsersAPI() throws Exception {
-		System.out.println("Getting Users with token : " + userToken);
 		HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("https://benevold.herokuapp.com/jello/users"))
@@ -169,11 +161,6 @@ public class CreateProject implements Initializable{
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
-		System.out.println("Reading body");
 		Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {

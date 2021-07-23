@@ -24,7 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class Project {
@@ -66,10 +65,6 @@ public class Project {
 			userToken = t.getToken();
 			projectID = t.getProjectID();
 			userID = t.getUserID();
-
-	        System.out.println("User Token : "+userToken); 
-	        System.out.println("projectID : "+projectID); 
-	        System.out.println("UserID : "+userID); 
 			fillData();
 			clicked = true;
 		}
@@ -90,9 +85,6 @@ public class Project {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
-        
         Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -140,75 +132,73 @@ public class Project {
         
 	}
 	public void handle(KeyEvent ke) throws IOException, InterruptedException {
-		Object node = ke.getSource();
-		@SuppressWarnings("unchecked")
-		ListView<String> v = (ListView<String>)node;
-		
-		String selectedItem = v.getSelectionModel().getSelectedItem().toString();
-		String selectedTask = tasksID.get(selectedItem);
-		
-		
-		
-		String status = null;
-		
-		String selectedStatus = null;
-		
-		if(itemsToDo.contains(selectedItem)) {
-			selectedStatus = "To Do";
-		}
-		if(itemsCurent.contains(selectedItem)) {
-			selectedStatus = "Curent";
-		}
-		if(itemsDone.contains(selectedItem)) {
-			selectedStatus = "Done";
-		}
-		
-		System.out.println("My selected is : "+selectedStatus);
-		
-        if (ke.getCode() == KeyCode.RIGHT) {
-
-        	if(selectedStatus.equals("To Do")) {
-    			status = "Curent";
-    		}else if(selectedStatus.equals("Curent")){
-    			status = "Done";
-    		}else if(selectedStatus.equals("Done")) {
-    			status = "To Do";
-    		}
+        if (ke.getCode() == KeyCode.RIGHT || ke.getCode() == KeyCode.LEFT) {
+			Object node = ke.getSource();
+			@SuppressWarnings("unchecked")
+			ListView<String> v = (ListView<String>)node;
+			
+			String selectedItem = v.getSelectionModel().getSelectedItem().toString();
+			String selectedTask = tasksID.get(selectedItem);
+			
+			
+			
+			String status = null;
+			
+			String selectedStatus = null;
+			
+			if(itemsToDo.contains(selectedItem)) {
+				selectedStatus = "To Do";
+			}
+			if(itemsCurent.contains(selectedItem)) {
+				selectedStatus = "Curent";
+			}
+			if(itemsDone.contains(selectedItem)) {
+				selectedStatus = "Done";
+			}
+						
+	        if (ke.getCode() == KeyCode.RIGHT) {
+	
+	        	if(selectedStatus.equals("To Do")) {
+	    			status = "Curent";
+	    		}else if(selectedStatus.equals("Curent")){
+	    			status = "Done";
+	    		}else if(selectedStatus.equals("Done")) {
+	    			status = "To Do";
+	    		}
+	        }
+	
+	        if (ke.getCode() == KeyCode.LEFT) {
+	        	if(selectedStatus.equals("To Do")) {
+	    			status = "Done";
+	    		}else if(selectedStatus.equals("Curent")) {
+	    			status = "To Do";
+	    		}else if(selectedStatus.equals("Done")) {
+	    			status = "Curent";
+	    		}
+	        }
+	        
+	        String body = new StringBuilder()
+	                .append("{")
+	                .append("\"task_id\":\""+selectedTask+"\",")
+	                .append("\"new_status\":\""+status+"\"")
+	                .append("}").toString();
+			HttpRequest request = HttpRequest.newBuilder()
+	                .PUT(HttpRequest.BodyPublishers.ofString(body))
+	                .uri(URI.create("https://benevold.herokuapp.com/jello/task/status"))
+	                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+	                .header("Content-Type", "application/json")
+	                .header("access-token", userToken)
+	                .build();
+	        @SuppressWarnings("unused")
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+	    	toDoList.getItems().clear();
+	    	curentList.getItems().clear();
+	    	doneList.getItems().clear();
+	    	itemsToDo.clear();
+	    	itemsCurent.clear();
+	    	itemsDone.clear();
+	    	fillData();
         }
-
-        if (ke.getCode() == KeyCode.LEFT) {
-        	if(selectedStatus.equals("To Do")) {
-    			status = "Done";
-    		}else if(selectedStatus.equals("Curent")) {
-    			status = "To Do";
-    		}else if(selectedStatus.equals("Done")) {
-    			status = "Curent";
-    		}
-        }
-        
-        String body = new StringBuilder()
-                .append("{")
-                .append("\"task_id\":\""+selectedTask+"\",")
-                .append("\"new_status\":\""+status+"\"")
-                .append("}").toString();
-		HttpRequest request = HttpRequest.newBuilder()
-                .PUT(HttpRequest.BodyPublishers.ofString(body))
-                .uri(URI.create("https://benevold.herokuapp.com/jello/task/status"))
-                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
-                .header("Content-Type", "application/json")
-                .header("access-token", userToken)
-                .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
-        
-    	toDoList.getItems().clear();
-    	curentList.getItems().clear();
-    	doneList.getItems().clear();
-    	itemsToDo.clear();
-    	itemsCurent.clear();
-    	itemsDone.clear();
-    	fillData();
     }
 	
 	
@@ -248,15 +238,25 @@ public class Project {
 	
 	public void taskInfo(ActionEvent event) throws IOException {
 		if(userToken != null) {
-			Object node = event.getSource();
-			@SuppressWarnings("unchecked")
-			ListView<String> v = (ListView<String>)node;
-			if(v.getSelectionModel().getSelectedItem() != null) {
-				String selectedName = v.getSelectionModel().getSelectedItem().toString();
+			if(toDoList.getSelectionModel().getSelectedItem() != null) {
+				String selectedName = toDoList.getSelectionModel().getSelectedItem().toString();
+				String selectedTaskID = tasksID.get(selectedName);
+				Main m = new Main();
+				m.changeScene("taskInfo.fxml", new Token(userToken, projectID, null, userID, selectedTaskID));
+			}else if(curentList.getSelectionModel().getSelectedItem() != null) {
+				String selectedName = curentList.getSelectionModel().getSelectedItem().toString();
+				String selectedTaskID = tasksID.get(selectedName);
+				Main m = new Main();
+				m.changeScene("taskInfo.fxml", new Token(userToken, projectID, null, userID, selectedTaskID));
+			}else if(doneList.getSelectionModel().getSelectedItem() != null) {
+				String selectedName = doneList.getSelectionModel().getSelectedItem().toString();
 				String selectedTaskID = tasksID.get(selectedName);
 				Main m = new Main();
 				m.changeScene("taskInfo.fxml", new Token(userToken, projectID, null, userID, selectedTaskID));
 			}
 		}
 	}
+	
+	
+	
 }

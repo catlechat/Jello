@@ -59,11 +59,7 @@ public class AddToTask {
 			projectID = t.getProjectID();
 			taskID = t.getTaskID();		
 			userID = t.getUserID();
-	        System.out.println("User Token : "+userToken); 
-	        System.out.println("projectID : "+projectID); 
-	        System.out.println("Task ID : "+taskID); 
-	        System.out.println("UserID : "+userID); 
-	        
+	       
 	        setUsersList();
 	        setTeamList();
 	        
@@ -107,7 +103,6 @@ public class AddToTask {
 		} 
 		for(JSONObject user : team){			
 			items2.add(""+user.get("name"));
-			System.out.println("User name : "+ user.get("name"));
 		}
 		teamList.setItems(items2);
 		
@@ -132,7 +127,6 @@ public class AddToTask {
 		for(JSONObject user : users){
 			usersID.put(user.get("username").toString(), user.get("_id").toString());
 			items.add(""+user.get("username"));
-			System.out.println("User name : "+ user.get("username"));
 		}
 		allUsersList.setItems(items);
 	}
@@ -148,11 +142,6 @@ public class AddToTask {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
-		System.out.println("Reading body");
 		Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -178,9 +167,6 @@ public class AddToTask {
                 .header("access-token", userToken)
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body()); 
-        
         Object obj = null;
 	    JSONParser parser = new JSONParser();
         try {
@@ -210,10 +196,8 @@ public class AddToTask {
 		                .header("Content-Type", "application/json")
 		                .header("access-token", userToken)
 		                .build();
-		        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-		        // print status code
-		        System.out.println(response.statusCode() + "pour l'ajout d'un user");
-		        // print response body
+		        @SuppressWarnings("unused")
+				HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 		        teamList.getItems().clear();
 		        setTeamList();
 			}

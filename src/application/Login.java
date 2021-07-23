@@ -68,10 +68,6 @@ public class Login implements Initializable{
                 .header("Content-Type", "application/json")
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code
-        System.out.println(response.statusCode());
-        // print response body
-        System.out.println(response.body()); 
         Object obj = null;
 	    JSONParser parser = new JSONParser();
 		obj = parser.parse(response.body());
@@ -79,15 +75,9 @@ public class Login implements Initializable{
         String token = (String) parent.get("token");
 		
 		if(token != null) {
-			
-	        System.out.println("Token : " + token);
-	        
 	        String username = parent.get("username").toString();
-	        
 	        String userID = parent.get("user_id").toString();
-	        //Write username to file 
 	        writeLoginFile(username);
-	        //
 			Main m = new Main();
 			m.changeScene("chooseProject.fxml", new Token(token,null,null,userID)); 
 		}else {
@@ -121,14 +111,9 @@ public class Login implements Initializable{
 		      }
 		      
 		    } catch (FileNotFoundException e) {
-		      System.out.println("File not found");
 		    }
 		return data;
 	}
-	
-	
-	
-	
 	private void writeLoginFile(String username) {
         File fold = new File("user.txt");
         if(fold.exists()) {
@@ -140,14 +125,10 @@ public class Login implements Initializable{
 	        f2.write(username);
 	        f2.close();
 	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }   
 			
 	}
-
-
-
 
 	public void openPopup() {
 		final Stage dialog = new Stage();
